@@ -20,6 +20,7 @@ A robust cross-platform mobile test automation framework supporting both Android
 - **Maven** (Build tool)
 - **Android SDK** (For Android tests)
 - **Xcode** (For iOS tests)
+- **ExtentReports**
 
 ## ⚙️ Setup Instructions
 
@@ -35,15 +36,4 @@ A robust cross-platform mobile test automation framework supporting both Android
 git clone https://github.com/Suban5/AppiumAndroidIOSDemo.git
 cd AppiumAndroidIOSDemo
 mvn clean install
-```
-
-🚀 Running Tests
-
-Android Tests
-```bash
-mvn test -Dplatform=android
-```
-iOS Tests
-```bash
-mvn test -Dplatform=ios
 ```
