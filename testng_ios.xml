@@ -1,8 +1,0 @@
-<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="Appium Test Suite">
-    <test name="iOS Tests">
-        <classes>
-            <class name="com.suban.ios.IOSTests"/>
-        </classes>
-    </test>
-</suite>

@@ -90,7 +90,7 @@ public class DeviceManager {
     }
 
     public static void stopIOSSimulator(String udid) throws IOException, InterruptedException {
-      // Runtime.getRuntime().exec(new String[]{"xcrun", "simctl", "shutdown", "all"});
+        // Runtime.getRuntime().exec(new String[]{"xcrun", "simctl", "shutdown", "all"});
         // Check if already shutdown
         if (!isSimulatorBooted(udid)) {
             System.out.println("Simulator " + udid + " is already shutdown");
@@ -116,6 +116,7 @@ public class DeviceManager {
         throw new TimeoutException("Simulator " + udid + " did not shutdown within " +
                 SHUTDOWN_TIMEOUT_SECONDS + " seconds");
     }
+
     /**
      * Checks if simulator is booted and ready
      */

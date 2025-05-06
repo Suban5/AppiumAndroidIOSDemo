@@ -1,5 +1,6 @@
 package com.suban.base;
 
+import com.suban.config.ConfigReader;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
@@ -9,14 +10,14 @@ import java.net.ServerSocket;
 
 public class AppiumServer {
     private static AppiumDriverLocalService service;
+    private static int port= Integer.parseInt(ConfigReader.getProperty("appium.port"));
 
     public static void startServer() {
-        if (!isServerRunning(4723)) {
+        if (!isServerRunning(port)) {
             // Set up the Appium service builder
             AppiumServiceBuilder builder = new AppiumServiceBuilder()
                     .withIPAddress("127.0.0.1")
-                    .usingPort(4723)
-                   // .withArgument(GeneralServerFlag.BASEPATH, "/wd/hub")
+                    .usingPort(port)
                     .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
                     .withArgument(GeneralServerFlag.LOG_LEVEL, "debug")
                     .withArgument(GeneralServerFlag.RELAXED_SECURITY);
@@ -33,7 +34,7 @@ public class AppiumServer {
                 }
             } catch (Exception e) {
                 System.err.println("Error starting Appium server: " + e.getMessage());
-                e.printStackTrace();
+                //e.printStackTrace();
             }
         } else {
             System.out.println("Appium server is already running on port 4723");
@@ -55,7 +56,4 @@ public class AppiumServer {
         }
     }
 
-    public static boolean isRunning() {
-        return service != null && service.isRunning();
-    }
 }

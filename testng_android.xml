@@ -1,8 +1,0 @@
-<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="Appium Test Suite">
-    <test name="Android Tests">
-        <classes>
-            <class name="com.suban.android.AndroidTests"/>
-        </classes>
-    </test>
-</suite>

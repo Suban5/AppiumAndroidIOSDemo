@@ -1,6 +1,7 @@
 package com.suban.base;
 
 import com.suban.config.ConfigReader;
+import com.suban.utils.ScreenshotUtils;
 import io.appium.java_client.AppiumDriver;
 import org.testng.annotations.*;
 
@@ -21,6 +22,8 @@ public class BaseTest {
     @BeforeMethod
     public void setup() throws Exception {
         driver = DriverManager.getDriver(ConfigReader.getProperty("platform"));
+
+        ScreenshotUtils.setDriver(driver);
     }
 
     @AfterMethod

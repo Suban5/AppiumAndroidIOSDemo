@@ -2,12 +2,8 @@
 <suite name="Appium Test Suite">
     <test name="Android Tests">
         <classes>
-            <class name="com.suban.android.AndroidTests"/>
+            <class name="com.suban.LoginTest"/>
         </classes>
     </test>
-    <test name="iOS Tests">
-        <classes>
-            <class name="com.suban.ios.IOSTests"/>
-        </classes>
-    </test>
+
 </suite>
