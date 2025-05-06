@@ -11,21 +11,38 @@ public class AppiumServer {
     private static AppiumDriverLocalService service;
 
     public static void startServer() {
-//        if (!isServerRunning(4723)) {
-//            service = new AppiumServiceBuilder()
-//                    .withIPAddress("127.0.0.1")
-//                    .usingPort(4723)
-//                    .build();
-//            service.start();
-//            System.out.println("Appium server started on: " + service.getUrl());
-//        } else {
-//            System.out.println("Appium server is already running on port 4723");
-//        }
+        if (!isServerRunning(4723)) {
+            // Set up the Appium service builder
+            AppiumServiceBuilder builder = new AppiumServiceBuilder()
+                    .withIPAddress("127.0.0.1")
+                    .usingPort(4723)
+                   // .withArgument(GeneralServerFlag.BASEPATH, "/wd/hub")
+                    .withArgument(GeneralServerFlag.SESSION_OVERRIDE)
+                    .withArgument(GeneralServerFlag.LOG_LEVEL, "debug")
+                    .withArgument(GeneralServerFlag.RELAXED_SECURITY);
+
+            // Start the server with more error handling
+            try {
+                service = AppiumDriverLocalService.buildService(builder);
+                service.start();
+
+                if (service.isRunning()) {
+                    System.out.println("Appium server started on: " + service.getUrl());
+                } else {
+                    System.out.println("Failed to start Appium server");
+                }
+            } catch (Exception e) {
+                System.err.println("Error starting Appium server: " + e.getMessage());
+                e.printStackTrace();
+            }
+        } else {
+            System.out.println("Appium server is already running on port 4723");
+        }
     }
 
     public static void stopServer() {
         if (service != null && service.isRunning()) {
-           // service.stop();
+            service.stop();
             System.out.println("Appium server stopped");
         }
     }

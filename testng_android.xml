@@ -5,9 +5,4 @@
             <class name="com.suban.android.AndroidTests"/>
         </classes>
     </test>
-    <test name="iOS Tests">
-        <classes>
-            <class name="com.suban.ios.IOSTests"/>
-        </classes>
-    </test>
 </suite>

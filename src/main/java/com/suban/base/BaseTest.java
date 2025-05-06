@@ -7,16 +7,16 @@ import org.testng.annotations.*;
 public class BaseTest {
     protected AppiumDriver driver;
 
-//    @BeforeSuite
-//    public void globalSetup() throws Exception {
-//        String platform = ConfigReader.getProperty("platform");
-//        if (platform.equalsIgnoreCase("android")) {
-//            DeviceManager.startAndroidEmulator(ConfigReader.getProperty("android.avd.name"));
-//        } else {
-//            DeviceManager.startIOSSimulator(ConfigReader.getProperty("ios.simulator.udid"));
-//        }
-//        AppiumServer.startServer();
-//    }
+    @BeforeSuite
+    public void globalSetup() throws Exception {
+        String platform = ConfigReader.getProperty("platform");
+        if (platform.equalsIgnoreCase("android")) {
+            DeviceManager.startAndroidEmulator(ConfigReader.getProperty("android.avd.name"));
+        } else {
+            DeviceManager.startIOSSimulator(ConfigReader.getProperty("ios.simulator.udid"));
+        }
+        AppiumServer.startServer();
+    }
 
     @BeforeMethod
     public void setup() throws Exception {
@@ -28,13 +28,13 @@ public class BaseTest {
         if (driver != null) driver.quit();
     }
 
-//    @AfterSuite
-//    public void globalTearDown() throws Exception {
-//        AppiumServer.stopServer();
-//        if (ConfigReader.getProperty("platform").equalsIgnoreCase("android")) {
-//            DeviceManager.stopAndroidEmulator();
-//        } else {
-//            DeviceManager.stopIOSSimulator();
-//        }
-//    }
+    @AfterSuite
+    public void globalTearDown() throws Exception {
+        AppiumServer.stopServer();
+        if (ConfigReader.getProperty("platform").equalsIgnoreCase("android")) {
+            DeviceManager.stopAndroidEmulator();
+        } else {
+            DeviceManager.stopIOSSimulator(ConfigReader.getProperty("ios.simulator.udid"));
+        }
+    }
 }

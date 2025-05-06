@@ -17,7 +17,7 @@ public class AndroidTests extends BaseTest {
 
 
         LoginPage loginPage = new LoginPage((AndroidDriver) driver);
-        loginPage.login("testuser", "password123");
+        loginPage.login("joe", "mypassword");
 
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
