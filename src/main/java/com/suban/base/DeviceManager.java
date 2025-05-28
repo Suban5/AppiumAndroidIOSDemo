@@ -1,6 +1,8 @@
 package com.suban.base;
 
 import org.openqa.selenium.TimeoutException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -12,6 +14,8 @@ public class DeviceManager {
     private static final long BOOT_TIMEOUT_SECONDS = 120;
     private static final long SHUTDOWN_TIMEOUT_SECONDS = 30;
     private static final long POLL_INTERVAL_MS = 1000;
+
+    private static final Logger logger = LoggerFactory.getLogger(DeviceManager.class);
 
     private static boolean isEmulatorReady() throws IOException {
         // Check both boot complete and package manager ready
@@ -45,7 +49,7 @@ public class DeviceManager {
 
         while (System.currentTimeMillis() - startTime < timeoutMillis) {
             if (isEmulatorReady()) {
-                System.out.println("Emulator is ready");
+                logger.info("Emulator is ready");
                 return;
             }
             Thread.sleep(POLL_INTERVAL_MS);
@@ -56,6 +60,7 @@ public class DeviceManager {
     }
 
     public static void stopAndroidEmulator() throws IOException {
+        logger.info("Stopping Android emulator");
         Runtime.getRuntime().exec(new String[]{"adb", "emu", "kill"});
     }
 
@@ -65,13 +70,14 @@ public class DeviceManager {
 //        Thread.sleep(30000);
 // First check if already booted
         if (isSimulatorBooted(udid)) {
-            System.out.println("Simulator " + udid + " is already booted");
+            logger.info("Simulator {} is already booted", udid);
             return;
         }
 
         // Boot the simulator
         Process bootProcess = new ProcessBuilder("xcrun", "simctl", "boot", udid).start();
         if (bootProcess.waitFor() != 0) {
+            logger.error("Failed to boot simulator {}", udid);
             throw new IOException("Failed to boot simulator " + udid);
         }
 
@@ -79,7 +85,7 @@ public class DeviceManager {
         long startTime = System.currentTimeMillis();
         while (System.currentTimeMillis() - startTime < TimeUnit.SECONDS.toMillis(BOOT_TIMEOUT_SECONDS)) {
             if (isSimulatorBooted(udid)) {
-                System.out.println("Simulator " + udid + " successfully booted");
+                logger.info("Simulator {} successfully booted", udid);
                 return;
             }
             Thread.sleep(POLL_INTERVAL_MS);
@@ -93,13 +99,14 @@ public class DeviceManager {
         // Runtime.getRuntime().exec(new String[]{"xcrun", "simctl", "shutdown", "all"});
         // Check if already shutdown
         if (!isSimulatorBooted(udid)) {
-            System.out.println("Simulator " + udid + " is already shutdown");
+            logger.info("Simulator {} is already shutdown", udid);
             return;
         }
 
         // Shutdown the simulator
         Process shutdownProcess = new ProcessBuilder("xcrun", "simctl", "shutdown", udid).start();
         if (shutdownProcess.waitFor() != 0) {
+            logger.error("Failed to shutdown simulator {}", udid);
             throw new IOException("Failed to shutdown simulator " + udid);
         }
 
@@ -107,7 +114,7 @@ public class DeviceManager {
         long startTime = System.currentTimeMillis();
         while (System.currentTimeMillis() - startTime < TimeUnit.SECONDS.toMillis(SHUTDOWN_TIMEOUT_SECONDS)) {
             if (!isSimulatorBooted(udid)) {
-                System.out.println("Simulator " + udid + " successfully shutdown");
+                logger.info("Simulator {} successfully shutdown", udid);
                 return;
             }
             Thread.sleep(POLL_INTERVAL_MS);
@@ -165,3 +172,4 @@ public class DeviceManager {
     }
 
 }
+

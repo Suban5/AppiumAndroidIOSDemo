@@ -1,0 +1,4 @@
+CMD to start android emulator
+cd ~/Library/Android/sdk/emulator
+emulator -list-avds
+emulator -avd [YOUR_AVD_NAME]

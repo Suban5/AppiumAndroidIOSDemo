@@ -4,13 +4,16 @@ import com.suban.config.ConfigReader;
 import io.appium.java_client.service.local.AppiumDriverLocalService;
 import io.appium.java_client.service.local.AppiumServiceBuilder;
 import io.appium.java_client.service.local.flags.GeneralServerFlag;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.net.ServerSocket;
 
 public class AppiumServer {
     private static AppiumDriverLocalService service;
-    private static int port= Integer.parseInt(ConfigReader.getProperty("appium.port"));
+    private static final int port= Integer.parseInt(ConfigReader.getProperty("appium.port"));
+    private static final Logger logger = LoggerFactory.getLogger(AppiumServer.class);
 
     public static void startServer() {
         if (!isServerRunning(port)) {
@@ -28,23 +31,23 @@ public class AppiumServer {
                 service.start();
 
                 if (service.isRunning()) {
-                    System.out.println("Appium server started on: " + service.getUrl());
+                    logger.info("Appium server started on: {}", service.getUrl());
                 } else {
-                    System.out.println("Failed to start Appium server");
+                    logger.error("Failed to start Appium server");
                 }
             } catch (Exception e) {
-                System.err.println("Error starting Appium server: " + e.getMessage());
-                //e.printStackTrace();
+                logger.error("Error starting Appium server: {}", e.getMessage(), e);
+                //logger.debug("Exception details: ", e);
             }
         } else {
-            System.out.println("Appium server is already running on port 4723");
+            logger.warn("Appium server is already running on port {}", port);
         }
     }
 
     public static void stopServer() {
         if (service != null && service.isRunning()) {
             service.stop();
-            System.out.println("Appium server stopped");
+            logger.info("Appium server stopped");
         }
     }
 
