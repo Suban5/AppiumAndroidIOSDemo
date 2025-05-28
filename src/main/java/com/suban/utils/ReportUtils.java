@@ -25,10 +25,52 @@ public class ReportUtils {
         String reportName = "Test-Report-" + timeStamp + ".html";
         ExtentSparkReporter sparkReporter = new ExtentSparkReporter("test-output/" + reportName);
 
+        // Modern custom CSS for sleek, responsive, and visually appealing UI
+        String customCSS = "body, .container { font-family: 'Segoe UI', Arial, sans-serif; background: #f7f9fa; }" +
+                ".nav-wrapper, .brand-logo { background: #22223b !important; color: #fff !important; }" +
+                ".test, .card-panel { border-radius: 12px !important; box-shadow: 0 2px 12px rgba(34,34,59,0.08) !important; }" +
+                ".test .test-heading { font-size: 1.2rem; font-weight: 600; color: #22223b; }" +
+                ".test .test-steps { background: #fff; border-radius: 8px; margin: 8px 0; }" +
+                ".test .step { border-left: 4px solid #4ea8de; margin-bottom: 8px; padding: 8px 16px; }" +
+                ".test.passed .step { border-color: #38b000; }" +
+                ".test.failed .step { border-color: #d90429; }" +
+                ".test.skipped .step { border-color: #f9c74f; }" +
+                ".test .step .step-name { font-weight: 500; }" +
+                ".test .step .step-details { color: #555; }" +
+                ".test .step:hover { background: #e0e1dd; transition: background 0.2s; }" +
+                ".test .collapsible-header { cursor: pointer; }" +
+                ".test .collapsible-body { transition: max-height 0.3s ease; overflow: hidden; }" +
+                "@media (max-width: 600px) { .container { padding: 4px !important; } .test .test-heading { font-size: 1rem; } }" +
+                ".theme-toggle { position: fixed; top: 16px; right: 16px; z-index: 9999; background: #fff; border-radius: 20px; box-shadow: 0 2px 8px rgba(0,0,0,0.08); padding: 6px 16px; cursor: pointer; font-size: 1rem; }" +
+                "body.dark-mode { background: #181818; color: #e0e1dd; }" +
+                "body.dark-mode .container, body.dark-mode .test .test-steps { background: #232946; color: #e0e1dd; }" +
+                "body.dark-mode .test .step { background: #232946; color: #e0e1dd; }" +
+                "body.dark-mode .test .step:hover { background: #393e46; }" +
+                "body.dark-mode .nav-wrapper, body.dark-mode .brand-logo { background: #232946 !important; color: #e0e1dd !important; }";
+
+        // Custom JS for collapsible sections and dark/light mode toggle
+        String customJS = "document.addEventListener('DOMContentLoaded',function(){" +
+                "  var headers=document.querySelectorAll('.collapsible-header');" +
+                "  headers.forEach(function(h){h.addEventListener('click',function(){" +
+                "    var body=this.nextElementSibling;" +
+                "    if(body.style.maxHeight){body.style.maxHeight=null;}else{body.style.maxHeight=body.scrollHeight+'px';}" +
+                "  });});" +
+                "  var btn=document.createElement('div');" +
+                "  btn.className='theme-toggle';btn.innerText='Toggle Dark/Light';" +
+                "  btn.onclick=function(){" +
+                "    document.body.classList.toggle('dark-mode');" +
+                "    localStorage.setItem('er-theme',document.body.classList.contains('dark-mode')?'dark':'light');" +
+                "  };" +
+                "  document.body.appendChild(btn);" +
+                "  if(localStorage.getItem('er-theme')==='dark'){document.body.classList.add('dark-mode');}" +
+                "});";
+
         sparkReporter.config().setDocumentTitle("Appium Automation Report");
         sparkReporter.config().setReportName("Mobile Test Results");
-        sparkReporter.config().setTheme(Theme.DARK);
+        sparkReporter.config().setTheme(Theme.STANDARD); // Use STANDARD for better custom theming
         sparkReporter.config().setEncoding("utf-8");
+        sparkReporter.config().setCss(customCSS);
+        sparkReporter.config().setJs(customJS);
 
         extent = new ExtentReports();
         extent.attachReporter(sparkReporter);
