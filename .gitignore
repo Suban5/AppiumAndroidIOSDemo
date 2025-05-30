@@ -39,3 +39,6 @@ build/
 /test-output/
 
 /logs/
+
+###allure reports###
+allure-results/
